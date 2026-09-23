@@ -16,7 +16,7 @@ const description =
 
 const meta = [
   ['Author', 'Tianfu Wang'],
-  ['Affiliation', 'HKUST(GZ)'],
+  ['Affiliation', 'HKUST(GZ) · USTC · CQU'],
   ['Line', '2021 – 2026'],
   ['Papers / repos', '05 papers / 05 repos'],
 ];
@@ -47,10 +47,20 @@ const jsonld = {
       alternateName: ['王天富', 'GeminiLight'],
       url: 'https://tianfuwang.tech/',
       jobTitle: 'PhD student',
-      affiliation: {
-        '@type': 'CollegeOrUniversity',
-        name: 'The Hong Kong University of Science and Technology (Guangzhou)',
-      },
+      affiliation: [
+        {
+          '@type': 'CollegeOrUniversity',
+          name: 'The Hong Kong University of Science and Technology (Guangzhou)',
+        },
+        {
+          '@type': 'CollegeOrUniversity',
+          name: 'University of Science and Technology of China',
+        },
+        {
+          '@type': 'CollegeOrUniversity',
+          name: 'Chongqing University',
+        },
+      ],
       sameAs: [
         'https://github.com/GeminiLight',
         'https://scholar.google.com/citations?user=BYdLtIgAAAAJ',

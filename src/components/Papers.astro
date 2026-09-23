@@ -39,7 +39,7 @@ const awardCount = papers.filter((p) => p.award).length;
             {p.venueTag}
             {p.award && <Icon name="award" size={11} class="pub-award" />}
           </span>
-          <span class="pub-title">{p.title}</span>
+          <span class="pub-title">{p.short}</span>
           <Icon name="chevron" size={14} class="pub-go" />
         </button>
       ))}
@@ -284,12 +284,12 @@ const awardCount = papers.filter((p) => p.award).length;
 
   .pub-title {
     font-size: 13.5px;
+    font-weight: 500;
     line-height: 1.45;
     color: var(--ink-2);
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
+    white-space: nowrap;
     overflow: hidden;
+    text-overflow: ellipsis;
     transition: color 160ms ease;
   }
 

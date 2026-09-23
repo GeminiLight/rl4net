@@ -98,7 +98,7 @@ export const papers: Paper[] = [
   },
   {
     id: 'constraint-aware',
-    short: 'Constraint-aware',
+    short: 'CONAL',
     title: 'Towards Constraint-aware Learning for Resource Allocation in NFV Networks',
     venue: 'ICML Workshop on Machine Learning for Wireless Communication and Networks (ML4Wireless)',
     venueTag: 'ICMLW 2025',
