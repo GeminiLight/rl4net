@@ -24,6 +24,7 @@ const canonical = `https://tianfuwang.tech${base}`;
     <meta name="theme-color" content="#090B0F" />
     <script is:inline>
       (() => {
+        document.documentElement.classList.add('js');
         const saved = localStorage.getItem('rl4net-theme');
         const light = saved ? saved === 'light' : window.matchMedia('(prefers-color-scheme: light)').matches;
         document.documentElement.classList.toggle('light', light);
@@ -66,7 +67,7 @@ const canonical = `https://tianfuwang.tech${base}`;
               }
             }
           },
-          { threshold: 0.12 }
+          { threshold: 0, rootMargin: '0px 0px -64px 0px' }
         );
         targets.forEach((t) => io.observe(t));
       }

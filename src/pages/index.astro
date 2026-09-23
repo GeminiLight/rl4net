@@ -18,7 +18,7 @@ const meta = [
   ['Author', 'Tianfu Wang'],
   ['Affiliation', 'HKUST(GZ)'],
   ['Line', '2021 – 2026'],
-  ['Outputs', '05 papers / 04 repos'],
+  ['Papers / repos', '05 papers / 04 repos'],
 ];
 
 const profileLinks = [
@@ -115,23 +115,23 @@ const jsonld = {
           5G network slicing. Five papers, 2021–2026, closing with Virne, a comprehensive benchmark
           accepted at ICLR 2026.
         </p>
-        <div class="mt-8 flex flex-wrap items-stretch border border-rulestrong">
-          {meta.map(([k, v], i) => (
-            <div class={`bg-plate px-4 py-2.5 ${i > 0 ? 'border-l border-rule' : ''}`}>
+        <div class="mt-8 grid max-w-md grid-cols-2 gap-px border border-rulestrong bg-rulestrong">
+          {meta.map(([k, v]) => (
+            <div class="bg-plate px-4 py-2.5">
               <div class="mono-label text-ink3">{k}</div>
-              <div class="mt-0.5 font-mono text-[12.5px]">{v}</div>
+              <div class="mt-0.5 font-mono text-[12.5px] whitespace-nowrap">{v}</div>
             </div>
           ))}
         </div>
-        <div class="mt-7 flex flex-wrap gap-3">
-          <a class="btn btn-solid" href="https://arxiv.org/abs/2507.19234" target="_blank" rel="noopener">
-            <Icon name="paper" size={13} />ICLR 2026 paper
+        <div class="mt-7 flex flex-wrap gap-2.5">
+          <a class="btn btn-sm btn-solid" href="https://arxiv.org/abs/2507.19234" target="_blank" rel="noopener">
+            <Icon name="paper" size={12} />ICLR 2026 paper
           </a>
-          <a class="btn" href="https://github.com/GeminiLight/virne" target="_blank" rel="noopener">
-            <Icon name="github" size={13} />Virne on GitHub
+          <a class="btn btn-sm" href="https://github.com/GeminiLight/virne" target="_blank" rel="noopener">
+            <Icon name="github" size={12} />GitHub
           </a>
-          <a class="btn" href="https://virne.readthedocs.io" target="_blank" rel="noopener">
-            <Icon name="book" size={13} />Documentation
+          <a class="btn btn-sm" href="https://virne.readthedocs.io" target="_blank" rel="noopener">
+            <Icon name="book" size={12} />Documentation
           </a>
         </div>
       </div>
@@ -168,15 +168,17 @@ const jsonld = {
           </p>
         </div>
         <figure class="border border-rule bg-plate p-3">
-          <img
-            src={`${import.meta.env.BASE_URL}figures/virne-problem.png`}
-            alt="Illustration of the NFV resource allocation problem: virtual network requests arrive at a substrate network and must be embedded onto its nodes and links"
-            loading="lazy"
-            decoding="async"
-            width="1400"
-            height="1037"
-            class="block h-auto w-full"
-          />
+          <div class="bg-white p-2">
+            <img
+              src={`${import.meta.env.BASE_URL}figures/virne-problem.png`}
+              alt="Illustration of the NFV resource allocation problem: virtual network requests arrive at a substrate network and must be embedded onto its nodes and links"
+              loading="lazy"
+              decoding="async"
+              width="1400"
+              height="1037"
+              class="block h-auto w-full"
+            />
+          </div>
           <figcaption class="flex flex-wrap gap-2 px-1 pt-2.5 text-[12px]">
             <span class="mono-label text-signalink">Fig. 1</span>
             <span class="text-ink2">The NFV-RA problem: virtual requests arrive sequentially and must be embedded onto the substrate network.</span>

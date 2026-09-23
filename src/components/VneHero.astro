@@ -58,7 +58,7 @@ const delays = ['0s', '0.15s', '0.3s', '0.45s', '0.6s'];
 
 <div class="border border-rulestrong bg-plate">
   <div class="flex flex-wrap items-stretch border-b border-rulestrong">
-    <div class="mono-label flex items-center border-r border-rule px-4 py-2 text-ink3">
+    <div class="mono-label flex items-center gap-2 border-r border-rule px-4 py-2 text-ink3">
       <span>Sheet</span><span class="text-ink">00</span>
     </div>
     <div class="mono-label flex flex-1 items-center px-4 py-2 text-ink3">Virtual network embedding</div>
@@ -66,7 +66,17 @@ const delays = ['0s', '0.15s', '0.3s', '0.45s', '0.6s'];
     <div class="mono-label hidden items-center border-l border-rule px-4 py-2 text-ink3 md:flex">Rev 2026</div>
   </div>
   <svg viewBox="0 0 1200 560" class="block h-auto w-full" role="img" aria-label="A virtual network request is mapped onto a substrate network">
-    <text x="95" y="118" class="cap">SUBSTRATE NETWORK / VN 0847 INCOMING</text>
+    <defs>
+      <pattern id="hero-grid" width="40" height="40" patternUnits="userSpaceOnUse">
+        <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(48, 227, 200, 0.055)" stroke-width="1" />
+      </pattern>
+    </defs>
+    <rect width="1200" height="560" fill="url(#hero-grid)" />
+    <path class="reg" d="M 20 56 V 20 H 56" />
+    <path class="reg" d="M 1144 20 H 1180 V 56" />
+    <path class="reg" d="M 1180 504 V 540 H 1144" />
+    <path class="reg" d="M 56 540 H 20 V 504" />
+    <text x="72" y="44" class="cap">SUBSTRATE NETWORK / VN 0847 INCOMING</text>
 
     {subEdges.map(([a, b]) => {
       const c = edgeCoords(a, b);
@@ -80,9 +90,9 @@ const delays = ['0s', '0.15s', '0.3s', '0.45s', '0.6s'];
 
     {Object.entries(sub).map(([id, p]) => (
       <g>
-        <circle class="s-node" cx={p.x} cy={p.y} r="8" />
-        <circle class="s-dot" cx={p.x} cy={p.y} r="2" />
-        <text class="node-id" x={p.x + 12} y={p.y + 4}>{id}</text>
+        <circle class="s-node" cx={p.x} cy={p.y} r="9.5" />
+        <circle class="s-dot" cx={p.x} cy={p.y} r="2.5" />
+        <text class="node-id" x={p.x + 13} y={p.y + 4}>{id}</text>
       </g>
     ))}
 
@@ -107,6 +117,12 @@ const delays = ['0s', '0.15s', '0.3s', '0.45s', '0.6s'];
       </g>
     ))}
   </svg>
+  <div class="flex flex-wrap items-center gap-x-5 gap-y-1.5 border-t border-rulestrong px-4 py-2.5">
+    <span class="mono-label inline-flex items-center gap-2 text-ink3"><i class="hlg hlg-node"></i>substrate node</span>
+    <span class="mono-label inline-flex items-center gap-2 text-ink3"><i class="hlg hlg-vnode"></i>virtual node</span>
+    <span class="mono-label inline-flex items-center gap-2 text-ink3"><i class="hlg hlg-edge"></i>substrate link</span>
+    <span class="mono-label inline-flex items-center gap-2 text-ink3"><i class="hlg hlg-vedge"></i>virtual link</span>
+  </div>
 </div>
 
 <style>
@@ -117,25 +133,62 @@ const delays = ['0s', '0.15s', '0.3s', '0.45s', '0.6s'];
     fill: var(--ink-3);
   }
 
+  .reg {
+    fill: none;
+    stroke: rgba(48, 227, 200, 0.45);
+    stroke-width: 1.5;
+  }
+
+  .hlg {
+    display: inline-block;
+    flex-shrink: 0;
+  }
+
+  .hlg-node {
+    width: 9px;
+    height: 9px;
+    border: 1.5px solid rgba(77, 232, 210, 0.85);
+    border-radius: 50%;
+  }
+
+  .hlg-vnode {
+    width: 9px;
+    height: 9px;
+    background: var(--warm);
+    border-radius: 50%;
+  }
+
+  .hlg-edge {
+    width: 16px;
+    height: 0;
+    border-top: 1.5px solid rgba(48, 227, 200, 0.5);
+  }
+
+  .hlg-vedge {
+    width: 16px;
+    height: 0;
+    border-top: 2px solid var(--warm);
+  }
+
   .node-id {
     font-family: var(--font-mono);
-    font-size: 9px;
+    font-size: 10px;
     fill: var(--ink-3);
   }
 
   .s-edge {
-    stroke: rgba(48, 227, 200, 0.24);
+    stroke: rgba(48, 227, 200, 0.32);
     stroke-width: 1;
   }
 
   .s-node {
     fill: var(--plate);
-    stroke: rgba(77, 232, 210, 0.72);
-    stroke-width: 1.5;
+    stroke: rgba(77, 232, 210, 0.78);
+    stroke-width: 1.75;
   }
 
   .s-dot {
-    fill: rgba(77, 232, 210, 0.8);
+    fill: rgba(77, 232, 210, 0.85);
   }
 
   .s-hl {
