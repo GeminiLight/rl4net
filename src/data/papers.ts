@@ -24,6 +24,7 @@ export type Paper = {
 
 export const papers: Paper[] = [
   {
+    figure: { src: 'drl-sfcp.png', w: 644, h: 374, fig: 'Model', caption: 'Architecture of DRL-SFCP: a GCN encodes physical network state and a GRU encoder–decoder with alignment generates placement actions.' },
     id: 'drl-sfcp',
     short: 'DRL-SFCP',
     title: 'DRL-SFCP: Adaptive Service Function Chains Placement with Deep Reinforcement Learning',
