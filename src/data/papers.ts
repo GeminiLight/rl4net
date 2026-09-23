@@ -24,7 +24,7 @@ export type Paper = {
 
 export const papers: Paper[] = [
   {
-    figure: { src: 'drl-sfcp.png', w: 644, h: 374, fig: 'Model', caption: 'Architecture of DRL-SFCP: a GCN encodes physical network state and a GRU encoder–decoder with alignment generates placement actions.' },
+    figure: { src: 'drl-sfcp.png', w: 644, h: 374, fig: 'Model', caption: 'Architecture of DRL-SFCP: a GCN encodes physical network state and a GRU encoder-decoder with alignment generates placement actions.' },
     id: 'drl-sfcp',
     short: 'DRL-SFCP',
     title: 'DRL-SFCP: Adaptive Service Function Chains Placement with Deep Reinforcement Learning',
@@ -107,7 +107,7 @@ export const papers: Paper[] = [
     approach: 'Constraint-aware RL',
     contribution: 'Learning that keeps RL solutions feasible under strict NFV resource constraints.',
     authors: 'Tianfu Wang, Long Yang, Chao Wang, Chuan Qin, Liwei Deng, Li Shen, Hui Xiong',
-    award: 'Best Paper Award (1 of 33 accepted papers)',
+    award: 'Best Paper Award',
     figure: { src: 'conal.png', w: 1400, h: 631, fig: 'Fig. 2', caption: 'Overview of the CONAL constraint-aware learning framework.' },
     links: [
       { label: 'Paper', href: 'https://arxiv.org/abs/2410.22999' },

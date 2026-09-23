@@ -10,7 +10,6 @@ const linkIcon: Record<string, string> = {
 };
 
 const defaultId = papers[papers.length - 1].id;
-const codeCount = papers.filter((p) => p.links.some((l) => l.label === 'Code')).length;
 const awardCount = papers.filter((p) => p.award).length;
 ---
 
@@ -49,10 +48,6 @@ const awardCount = papers.filter((p) => p.award).length;
       <div class="pub-stat">
         <div class="display text-lg">{papers.length}</div>
         <div class="mono-label mt-0.5 text-ink3">papers</div>
-      </div>
-      <div class="pub-stat">
-        <div class="display text-lg">{codeCount}</div>
-        <div class="mono-label mt-0.5 text-ink3">code releases</div>
       </div>
       <div class="pub-stat">
         <div class="display text-lg text-warmink">{awardCount}</div>
@@ -339,7 +334,7 @@ const awardCount = papers.filter((p) => p.award).length;
 
   .pub-stats {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 1px;
     background: var(--rule-strong);
     border: 1px solid var(--rule-strong);
