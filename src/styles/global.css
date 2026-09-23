@@ -1,0 +1,225 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-plate: var(--plate);
+  --color-raised: var(--raised);
+  --color-ink: var(--ink);
+  --color-ink2: var(--ink-2);
+  --color-ink3: var(--ink-3);
+  --color-rule: var(--rule);
+  --color-rulestrong: var(--rule-strong);
+  --color-signal: var(--signal);
+  --color-signalink: var(--signal-ink);
+  --color-signalsoft: var(--signal-soft);
+  --color-warm: var(--warm);
+  --color-warmink: var(--warm-ink);
+  --color-warmsoft: var(--warm-soft);
+  --font-sans: "Schibsted Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Fragment Mono", ui-monospace, SFMono-Regular, monospace;
+}
+
+:root {
+  --paper: #090B0F;
+  --plate: #0E1116;
+  --raised: #12161D;
+  --ink: #E6EAF0;
+  --ink-2: rgba(230, 234, 240, 0.62);
+  --ink-3: rgba(230, 234, 240, 0.38);
+  --rule: rgba(230, 234, 240, 0.10);
+  --rule-strong: rgba(230, 234, 240, 0.22);
+  --signal: #30E3C8;
+  --signal-ink: #4DE8D2;
+  --signal-soft: rgba(48, 227, 200, 0.07);
+  --warm: #FFB454;
+  --warm-ink: #FFC26E;
+  --warm-soft: rgba(255, 180, 84, 0.08);
+  --dot: rgba(230, 234, 240, 0.055);
+  --on-signal: #05070A;
+}
+
+html.light {
+  --paper: #F4F6F5;
+  --plate: #FFFFFF;
+  --raised: #ECEFEE;
+  --ink: #14181C;
+  --ink-2: rgba(20, 24, 28, 0.64);
+  --ink-3: rgba(20, 24, 28, 0.42);
+  --rule: rgba(20, 24, 28, 0.12);
+  --rule-strong: rgba(20, 24, 28, 0.26);
+  --signal: #0AA88E;
+  --signal-ink: #087F6C;
+  --signal-soft: rgba(10, 168, 142, 0.07);
+  --warm: #C97D1B;
+  --warm-ink: #A9610B;
+  --warm-soft: rgba(201, 125, 27, 0.09);
+  --dot: rgba(20, 24, 28, 0.06);
+  --on-signal: #FFFFFF;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+section[id], div[id] {
+  scroll-margin-top: 4.5rem;
+}
+
+h1, h2, h3, .display {
+  text-wrap: balance;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  background-color: var(--paper);
+  background-image: radial-gradient(var(--dot) 1px, transparent 1px);
+  background-size: 26px 26px;
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--signal);
+  color: var(--on-signal);
+}
+
+:focus-visible {
+  outline: 2px solid var(--signal);
+  outline-offset: 2px;
+}
+
+.wordmark {
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+.display {
+  font-weight: 700;
+  letter-spacing: -0.005em;
+}
+
+.mono-label {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 10px 18px;
+  border: 1px solid var(--rule-strong);
+  color: var(--ink);
+  background: transparent;
+  transition: border-color 180ms ease, color 180ms ease, background-color 180ms ease;
+  cursor: pointer;
+}
+
+.btn:hover {
+  border-color: var(--signal);
+  color: var(--signal-ink);
+  background: var(--signal-soft);
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn-solid {
+  background: var(--signal);
+  border-color: var(--signal);
+  color: var(--on-signal);
+}
+
+.btn-solid:hover {
+  background: transparent;
+  border-color: var(--signal);
+  color: var(--signal-ink);
+}
+
+.copy-btn.copied {
+  border-color: var(--warm);
+  color: var(--warm-ink);
+}
+
+.copy-btn .ic-check {
+  display: none;
+}
+
+.copy-btn.copied .ic-check {
+  display: inline-flex;
+}
+
+.copy-btn.copied .ic-copy {
+  display: none;
+}
+
+.nav-link.active {
+  color: var(--signal-ink);
+}
+
+.tbl {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.tbl th {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  text-align: left;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--rule-strong);
+  white-space: nowrap;
+}
+
+.tbl td {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--rule);
+  vertical-align: top;
+}
+
+.tbl td.num {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.tbl tbody tr:hover {
+  background: var(--signal-soft);
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(14px);
+}
+
+.reveal.in {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 320ms cubic-bezier(0.22, 0.61, 0.36, 1), transform 320ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}

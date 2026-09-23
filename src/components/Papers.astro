@@ -1,0 +1,196 @@
+---
+import { papers } from '../data/papers';
+import Icon from './Icon.astro';
+
+const linkIcon: Record<string, string> = {
+  Paper: 'paper',
+  Code: 'github',
+  Docs: 'book',
+  PyPI: 'package',
+};
+---
+
+<ol class="timeline">
+  {papers.map((p) => (
+    <li class="group grid gap-3 py-6 first:pt-0 last:pb-0 sm:grid-cols-[7rem_minmax(0,1fr)] sm:gap-8">
+      <div class="mono-label text-ink3 sm:pt-1.5">{p.year}</div>
+      <div class="relative border-l border-rule pl-6">
+        <span class="marker absolute top-2 -left-[5px] hidden h-2.5 w-2.5 border border-signal bg-paper sm:block" aria-hidden="true"></span>
+        {p.figure && (
+          <figure class="paper-fig">
+            <img
+              src={`${import.meta.env.BASE_URL}figures/${p.figure.src}`}
+              alt={p.figure.caption}
+              loading="lazy"
+              decoding="async"
+              width={p.figure.w}
+              height={p.figure.h}
+            />
+            <figcaption>
+              <span class="mono-label text-signalink">{p.figure.fig}</span>
+              <span class="text-ink3">{p.figure.caption}</span>
+            </figcaption>
+          </figure>
+        )}
+        <div class="flex flex-wrap items-center gap-3">
+          <span class="mono-label border border-rulestrong px-2 py-1 text-ink2">{p.venueTag}</span>
+          {p.award && (
+            <span class="mono-label inline-flex items-center gap-1.5 text-warmink">
+              <Icon name="award" size={12} />{p.award}
+            </span>
+          )}
+        </div>
+        <h3 class="display mt-3 text-lg leading-snug">{p.title}</h3>
+        <p class="mt-2 max-w-2xl text-[15px] text-ink2">{p.contribution}</p>
+        <p class="mt-2 max-w-2xl text-[13px] text-ink3">{p.authors}</p>
+        <div class="mt-3 flex flex-wrap gap-x-5 gap-y-1.5">
+          {p.links.map((l) => (
+            <a class="link" href={l.href} target="_blank" rel="noopener">
+              <Icon name={linkIcon[l.label] ?? 'external'} size={12} />{l.label}
+            </a>
+          ))}
+        </div>
+        <details class="bib">
+          <summary>
+            <span class="bib-label">BibTeX</span>
+            <button
+              class="copy-btn mono-label inline-flex cursor-pointer items-center gap-1.5 border border-rulestrong px-2 py-1 text-ink2 transition-colors hover:border-signal hover:text-signalink"
+              data-copy={p.bibtex}
+              type="button"
+            >
+              <Icon name="copy" size={12} class="ic-copy" /><Icon name="check" size={12} class="ic-check" /><span class="lbl">Copy</span>
+            </button>
+          </summary>
+          <pre>{p.bibtex}</pre>
+        </details>
+      </div>
+    </li>
+  ))}
+</ol>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('.copy-btn').forEach((btn) => {
+    btn.addEventListener('click', async (e) => {
+      if (btn.closest('summary')) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      const text = btn.dataset.copy ?? '';
+      try {
+        await navigator.clipboard.writeText(text);
+      } catch {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        ta.remove();
+      }
+      const lbl = btn.querySelector('.lbl');
+      const prev = lbl?.textContent ?? 'Copy';
+      if (lbl) lbl.textContent = 'Copied';
+      btn.classList.add('copied');
+      setTimeout(() => { if (lbl) lbl.textContent = prev; btn.classList.remove('copied'); }, 1400);
+    });
+  });
+</script>
+
+<style>
+  .timeline li {
+    transition: background-color 200ms ease;
+  }
+
+  .timeline li:hover {
+    background: var(--signal-soft);
+  }
+
+  .marker {
+    transition: background-color 200ms ease;
+  }
+
+  .timeline li:hover .marker {
+    background: var(--signal);
+  }
+
+  .link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-color: var(--rule-strong);
+    transition: text-decoration-color 180ms ease;
+  }
+
+  .link:hover {
+    text-decoration-color: var(--signal);
+  }
+
+  .paper-fig {
+    margin-bottom: 1rem;
+    border: 1px solid var(--rule);
+    background: var(--plate);
+    padding: 0.75rem;
+  }
+
+  .paper-fig img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .paper-fig figcaption {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding-top: 0.6rem;
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
+  .bib {
+    margin-top: 0.85rem;
+    border-top: 1px solid var(--rule);
+  }
+
+  .bib summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 8px 2px;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .bib summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .bib-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    transition: color 160ms ease;
+  }
+
+  .bib summary:hover .bib-label,
+  .bib[open] .bib-label {
+    color: var(--signal-ink);
+  }
+
+  .bib pre {
+    padding: 4px 2px 14px;
+    overflow-x: auto;
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    line-height: 1.6;
+    color: var(--ink-2);
+  }
+</style>

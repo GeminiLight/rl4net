@@ -1,0 +1,253 @@
+---
+type P = { x: number; y: number };
+
+const sub: Record<number, P> = {
+  1: { x: 620, y: 80 },
+  2: { x: 820, y: 110 },
+  3: { x: 980, y: 200 },
+  4: { x: 1075, y: 345 },
+  5: { x: 955, y: 470 },
+  6: { x: 775, y: 495 },
+  7: { x: 595, y: 468 },
+  8: { x: 465, y: 375 },
+  9: { x: 430, y: 225 },
+  10: { x: 295, y: 110 },
+  11: { x: 695, y: 265 },
+  12: { x: 555, y: 330 },
+  13: { x: 865, y: 300 },
+  14: { x: 230, y: 330 },
+  15: { x: 335, y: 455 },
+};
+
+const subEdges: Array<[number, number]> = [
+  [1, 2], [1, 9], [1, 11], [2, 3], [2, 13], [3, 4], [4, 5], [5, 6],
+  [5, 13], [6, 7], [6, 11], [7, 8], [8, 9], [8, 12], [8, 15], [9, 10],
+  [10, 14], [11, 12], [11, 13], [12, 13], [12, 7], [14, 15],
+];
+
+const highlightEdges: Array<[number, number]> = [[1, 9], [1, 11], [8, 9], [6, 11], [7, 8]];
+
+const rack: P[] = [
+  { x: 105, y: 150 },
+  { x: 135, y: 230 },
+  { x: 95, y: 310 },
+  { x: 140, y: 390 },
+  { x: 110, y: 465 },
+];
+
+const targets: Array<keyof typeof sub> = [1, 9, 11, 8, 6];
+
+const vEdges: Array<[number, number]> = [[1, 2], [1, 3], [2, 4], [3, 4], [3, 5], [4, 5]];
+
+const edgeCoords = (a: number, b: number) => ({
+  x1: sub[a].x, y1: sub[a].y, x2: sub[b].x, y2: sub[b].y,
+});
+
+const vTargetCoords = (a: number, b: number) => ({
+  x1: sub[targets[a - 1]].x, y1: sub[targets[a - 1]].y,
+  x2: sub[targets[b - 1]].x, y2: sub[targets[b - 1]].y,
+});
+
+const vRackCoords = (a: number, b: number) => ({
+  x1: rack[a - 1].x, y1: rack[a - 1].y,
+  x2: rack[b - 1].x, y2: rack[b - 1].y,
+});
+
+const delays = ['0s', '0.15s', '0.3s', '0.45s', '0.6s'];
+---
+
+<div class="border border-rulestrong bg-plate">
+  <div class="flex flex-wrap items-stretch border-b border-rulestrong">
+    <div class="mono-label flex items-center border-r border-rule px-4 py-2 text-ink3">
+      <span>Sheet</span><span class="text-ink">00</span>
+    </div>
+    <div class="mono-label flex flex-1 items-center px-4 py-2 text-ink3">Virtual network embedding</div>
+    <div class="mono-label hidden items-center border-l border-rule px-4 py-2 text-ink3 sm:flex">Scale 1:1</div>
+    <div class="mono-label hidden items-center border-l border-rule px-4 py-2 text-ink3 md:flex">Rev 2026</div>
+  </div>
+  <svg viewBox="0 0 1200 560" class="block h-auto w-full" role="img" aria-label="A virtual network request is mapped onto a substrate network">
+    <text x="95" y="118" class="cap">SUBSTRATE NETWORK / VN 0847 INCOMING</text>
+
+    {subEdges.map(([a, b]) => {
+      const c = edgeCoords(a, b);
+      return <line class="s-edge" x1={c.x1} y1={c.y1} x2={c.x2} y2={c.y2} />;
+    })}
+
+    {highlightEdges.map(([a, b]) => {
+      const c = edgeCoords(a, b);
+      return <line class="s-hl" pathLength="1" x1={c.x1} y1={c.y1} x2={c.x2} y2={c.y2} />;
+    })}
+
+    {Object.entries(sub).map(([id, p]) => (
+      <g>
+        <circle class="s-node" cx={p.x} cy={p.y} r="8" />
+        <circle class="s-dot" cx={p.x} cy={p.y} r="2" />
+        <text class="node-id" x={p.x + 12} y={p.y + 4}>{id}</text>
+      </g>
+    ))}
+
+    {targets.map((t) => (
+      <circle class="halo" cx={sub[t].x} cy={sub[t].y} r="16" />
+    ))}
+
+    {vEdges.map(([a, b]) => {
+      const c = vRackCoords(a, b);
+      return <line class="v-rack" pathLength="1" x1={c.x1} y1={c.y1} x2={c.x2} y2={c.y2} />;
+    })}
+
+    {vEdges.map(([a, b]) => {
+      const c = vTargetCoords(a, b);
+      return <line class="v-target" pathLength="1" x1={c.x1} y1={c.y1} x2={c.x2} y2={c.y2} />;
+    })}
+
+    {rack.map((p, i) => (
+      <g class="v-node" style={`--sx:${p.x}px; --sy:${p.y}px; --tx:${sub[targets[i]].x}px; --ty:${sub[targets[i]].y}px; --d:${delays[i]}`}>
+        <circle cx="0" cy="0" r="7.5" />
+        <text x="11" y="4">{`v${i + 1}`}</text>
+      </g>
+    ))}
+  </svg>
+</div>
+
+<style>
+  .cap {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    fill: var(--ink-3);
+  }
+
+  .node-id {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    fill: var(--ink-3);
+  }
+
+  .s-edge {
+    stroke: rgba(48, 227, 200, 0.24);
+    stroke-width: 1;
+  }
+
+  .s-node {
+    fill: var(--plate);
+    stroke: rgba(77, 232, 210, 0.72);
+    stroke-width: 1.5;
+  }
+
+  .s-dot {
+    fill: rgba(77, 232, 210, 0.8);
+  }
+
+  .s-hl {
+    stroke: var(--warm);
+    stroke-width: 1.5;
+    stroke-dasharray: 1;
+    stroke-dashoffset: 0;
+    opacity: 1;
+    animation: hl-draw 12s cubic-bezier(0.45, 0, 0.25, 1) infinite;
+    animation-delay: 0.4s;
+  }
+
+  @keyframes hl-draw {
+    0%, 38% { stroke-dashoffset: 1; opacity: 1; }
+    46% { stroke-dashoffset: 0; opacity: 1; }
+    84% { stroke-dashoffset: 0; opacity: 1; }
+    92% { stroke-dashoffset: 0; opacity: 0; }
+    100% { stroke-dashoffset: 1; opacity: 0; }
+  }
+
+  .halo {
+    fill: none;
+    stroke: var(--warm);
+    stroke-width: 1.5;
+    opacity: 1;
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: halo-in 12s ease-in-out infinite;
+  }
+
+  @keyframes halo-in {
+    0%, 36% { opacity: 0; transform: scale(0.4); }
+    44% { opacity: 1; transform: scale(1); }
+    55% { opacity: 1; }
+    65% { opacity: 0.65; }
+    78% { opacity: 1; }
+    84% { opacity: 1; transform: scale(1); }
+    93% { opacity: 0; transform: scale(1); }
+    100% { opacity: 0; transform: scale(0.4); }
+  }
+
+  .v-rack {
+    stroke: var(--warm);
+    stroke-width: 1.5;
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    opacity: 0;
+    animation: rack-draw 12s ease-in-out infinite;
+  }
+
+  @keyframes rack-draw {
+    0%, 4% { stroke-dashoffset: 1; opacity: 0; }
+    11% { stroke-dashoffset: 0; opacity: 1; }
+    14% { opacity: 1; }
+    19% { stroke-dashoffset: 0; opacity: 0; }
+    100% { stroke-dashoffset: 1; opacity: 0; }
+  }
+
+  .v-target {
+    stroke: var(--warm);
+    stroke-width: 2;
+    stroke-dasharray: 1;
+    stroke-dashoffset: 0;
+    opacity: 1;
+    animation: target-draw 12s cubic-bezier(0.45, 0, 0.25, 1) infinite;
+  }
+
+  @keyframes target-draw {
+    0%, 38% { stroke-dashoffset: 1; opacity: 1; }
+    46% { stroke-dashoffset: 0; opacity: 1; }
+    84% { stroke-dashoffset: 0; opacity: 1; }
+    92% { stroke-dashoffset: 0; opacity: 0; }
+    100% { stroke-dashoffset: 1; opacity: 0; }
+  }
+
+  .v-node {
+    transform: translate(var(--tx), var(--ty));
+    animation: v-travel 12s cubic-bezier(0.45, 0, 0.25, 1) infinite;
+    animation-delay: var(--d);
+    will-change: transform;
+  }
+
+  .v-node circle {
+    fill: var(--warm);
+    filter: drop-shadow(0 0 6px rgba(255, 180, 84, 0.45));
+  }
+
+  .v-node text {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    fill: var(--warm-ink);
+  }
+
+  @keyframes v-travel {
+    0% { opacity: 0; transform: translate(var(--sx), var(--sy)) scale(0.6); }
+    6% { opacity: 1; transform: translate(var(--sx), var(--sy)) scale(1); }
+    14% { opacity: 1; transform: translate(var(--sx), var(--sy)) scale(1); animation-timing-function: cubic-bezier(0.5, 0.05, 0.3, 1); }
+    36% { opacity: 1; transform: translate(var(--tx), var(--ty)) scale(1); }
+    84% { opacity: 1; transform: translate(var(--tx), var(--ty)) scale(1); }
+    93% { opacity: 0; transform: translate(var(--tx), var(--ty)) scale(0.9); }
+    100% { opacity: 0; transform: translate(var(--sx), var(--sy)) scale(0.6); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .v-node, .v-target, .halo, .s-hl, .v-rack {
+      animation: none;
+    }
+
+    .v-node { transform: translate(var(--tx), var(--ty)); }
+    .v-target { stroke-dashoffset: 0; opacity: 1; }
+    .halo { opacity: 1; }
+    .s-hl { stroke-dashoffset: 0; opacity: 1; }
+    .v-rack { opacity: 0; }
+  }
+</style>

@@ -1,0 +1,124 @@
+---
+import { papers } from '../data/papers';
+import Icon from './Icon.astro';
+
+const resourceIcon: Record<string, string> = {
+  Paper: 'paper',
+  Code: 'github',
+  Docs: 'book',
+  PyPI: 'package',
+};
+
+const capabilities = [
+  {
+    k: 'Simulations',
+    v: 'Diverse network environments (cloud, edge, 5G) with user-defined topologies, resources, and service requirements.',
+  },
+  {
+    k: 'Solvers',
+    v: 'Over 30 registered algorithms, 10+ of them non-learning: exact, heuristic, meta-heuristic, and learning-based families behind a common interface.',
+  },
+  {
+    k: 'RL support',
+    v: 'Standardized RL pipelines and Gymnasium-compatible environments for rapid development and benchmarking.',
+  },
+  {
+    k: 'Evaluation',
+    v: 'In-depth analysis beyond effectiveness: solvability, generalization, and scalability.',
+  },
+];
+
+const virne = papers.find((p) => p.id === 'virne')!;
+---
+
+<div class="space-y-10">
+  <div>
+    <p class="max-w-3xl">
+      In the literature, resource allocation in NFV appears under many names: Virtual Network Embedding (VNE),
+      Virtual Network Function (VNF) placement, service function chain (SFC) deployment, and network slicing in 5G.
+      Virne brings them into one simulator and benchmark, with unified support for traditional and
+      reinforcement learning based algorithms.
+    </p>
+    <figure class="mt-6 border border-rule bg-plate p-3">
+      <img
+        src={`${import.meta.env.BASE_URL}figures/virne-pipeline.png`}
+        alt="A unified pipeline of gym-style environment and RL-based NFV-RA methods in Virne"
+        loading="lazy"
+        decoding="async"
+        width="1400"
+        height="421"
+        class="block h-auto w-full"
+      />
+      <figcaption class="flex flex-wrap gap-2 pt-2 text-[12px] text-ink3">
+        <span class="mono-label text-signalink">Fig. 3</span>
+        <span>A unified pipeline of gym-style environment and RL-based NFV-RA methods in Virne.</span>
+      </figcaption>
+    </figure>
+  </div>
+
+  <dl class="grid gap-px border border-rulestrong bg-rulestrong sm:grid-cols-2">
+    {capabilities.map((c) => (
+      <div class="bg-plate p-5">
+        <dt class="mono-label text-signalink">{c.k}</dt>
+        <dd class="mt-2 text-[14px] text-ink2">{c.v}</dd>
+      </div>
+    ))}
+  </dl>
+
+  <div>
+    <h3 class="mono-label mb-4 text-ink3">Methods in the line</h3>
+    <div class="overflow-x-auto">
+      <table class="tbl">
+        <thead>
+          <tr>
+            <th>Method</th>
+            <th>Venue</th>
+            <th>Problem</th>
+            <th>Approach</th>
+            <th>Code</th>
+          </tr>
+        </thead>
+        <tbody>
+          {papers.map((p) => (
+            <tr>
+              <td class="font-semibold">{p.short}</td>
+              <td class="num">{p.venueTag}</td>
+              <td class="text-ink2">{p.problem}</td>
+              <td class="text-ink2">{p.approach}</td>
+              <td>
+                {p.links.find((l) => l.label === 'Code')
+                  ? <a class="tbl-link" href={p.links.find((l) => l.label === 'Code')!.href} target="_blank" rel="noopener">GitHub</a>
+                  : <span class="text-ink3">—</span>}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div>
+    <h3 class="mono-label mb-4 text-ink3">Resources</h3>
+    <div class="flex flex-wrap gap-3">
+      {virne.links.map((l) => (
+        <a class="btn" href={l.href} target="_blank" rel="noopener">
+          <Icon name={resourceIcon[l.label] ?? 'external'} size={13} />{l.label}
+        </a>
+      ))}
+    </div>
+  </div>
+</div>
+
+<style>
+  .tbl-link {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-color: var(--rule-strong);
+  }
+
+  .tbl-link:hover {
+    text-decoration-color: var(--signal);
+  }
+</style>

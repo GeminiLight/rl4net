@@ -1,0 +1,84 @@
+---
+const faqs = [
+  {
+    q: 'What is Virne?',
+    a: 'Virne is a simulator and benchmark for resource allocation in Network Function Virtualization, unifying traditional and reinforcement learning based algorithms behind a common, Gymnasium-compatible interface. The benchmark paper was accepted at ICLR 2026 and the code is Apache-2.0 licensed.',
+  },
+  {
+    q: 'Which problems does Virne cover?',
+    a: 'Virtual Network Embedding (VNE), Virtual Network Function (VNF) placement, service function chain (SFC) deployment, and 5G network slicing. Simulations span cloud, edge, and 5G environments with user-defined topologies, resources, and service requirements.',
+  },
+  {
+    q: 'How many algorithms are included?',
+    a: 'Over 30 registered algorithms, of which more than 10 are non-learning: exact, heuristic, meta-heuristic, and learning-based families all share one interface, and new solvers plug in via module customization.',
+  },
+  {
+    q: 'How do I install Virne?',
+    a: 'Install from PyPI with Python 3.12 or newer: pip install virne. Documentation, examples, and source code are at virne.readthedocs.io and github.com/GeminiLight/virne.',
+  },
+];
+---
+
+<div class="faq">
+  {faqs.map((f) => (
+    <details class="faq-item">
+      <summary>{f.q}</summary>
+      <p>{f.a}</p>
+    </details>
+  ))}
+</div>
+
+<style>
+  .faq-item {
+    border-top: 1px solid var(--rule);
+  }
+
+  .faq-item:last-child {
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .faq-item summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 14px 4px;
+    font-weight: 600;
+    font-size: 15px;
+    cursor: pointer;
+    list-style: none;
+    transition: color 160ms ease;
+  }
+
+  .faq-item summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-item summary::after {
+    content: '+';
+    font-family: var(--font-mono);
+    font-size: 16px;
+    color: var(--ink-3);
+    transition: transform 200ms ease, color 160ms ease;
+  }
+
+  .faq-item[open] summary::after {
+    transform: rotate(45deg);
+    color: var(--signal-ink);
+  }
+
+  .faq-item[open] summary {
+    color: var(--signal-ink);
+  }
+
+  .faq-item summary:hover {
+    color: var(--signal-ink);
+  }
+
+  .faq-item p {
+    padding: 0 4px 16px;
+    max-width: 72ch;
+    font-size: 14.5px;
+    color: var(--ink-2);
+  }
+</style>

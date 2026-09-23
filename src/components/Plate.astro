@@ -1,0 +1,57 @@
+---
+interface Props {
+  num: string;
+  title: string;
+  id: string;
+  meta?: string[];
+}
+
+const { num, title, id, meta = [] } = Astro.props;
+---
+
+<section id={id} class="reveal">
+  <div class="plate-frame border border-rulestrong bg-plate">
+    <div class="flex flex-wrap items-stretch border-b border-rulestrong">
+      <div class="mono-label flex items-center gap-2 border-r border-rule px-4 py-2.5 text-ink3">
+        <span>Sheet</span><span class="text-ink">{num}</span>
+      </div>
+      <div class="flex min-w-56 flex-1 items-center px-4 py-2.5">
+        <h2 class="display text-lg">{title}</h2>
+      </div>
+      {meta.map((m) => (
+        <div class="mono-label hidden items-center border-l border-rule px-4 py-2.5 text-ink3 md:flex">{m}</div>
+      ))}
+    </div>
+    <div class="p-5 sm:p-8 lg:p-10">
+      <slot />
+    </div>
+  </div>
+</section>
+
+<style>
+  .plate-frame {
+    position: relative;
+  }
+
+  .plate-frame::before,
+  .plate-frame::after {
+    content: '';
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    background:
+      linear-gradient(rgba(48, 227, 200, 0.45), rgba(48, 227, 200, 0.45)) center / 100% 1px no-repeat,
+      linear-gradient(rgba(48, 227, 200, 0.45), rgba(48, 227, 200, 0.45)) center / 1px 100% no-repeat;
+    pointer-events: none;
+  }
+
+  .plate-frame::before {
+    top: -8px;
+    left: -8px;
+  }
+
+  .plate-frame::after {
+    bottom: -8px;
+    right: -8px;
+  }
+</style>

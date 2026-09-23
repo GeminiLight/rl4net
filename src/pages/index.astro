@@ -1,0 +1,264 @@
+---
+import Base from '../layouts/Base.astro';
+import VneHero from '../components/VneHero.astro';
+import Plate from '../components/Plate.astro';
+import Papers from '../components/Papers.astro';
+import Benchmark from '../components/Benchmark.astro';
+import Results from '../components/Results.astro';
+import Faq from '../components/Faq.astro';
+import LiveDemo from '../components/LiveDemo.astro';import Icon from '../components/Icon.astro';
+import ThemeToggle from '../components/ThemeToggle.astro';
+import { papers } from '../data/papers';
+
+const title = 'RL4Net: Reinforcement Learning for Network Resource Allocation';
+const description =
+  'RL4Net is Tianfu Wang\'s research line on RL for network resource allocation in NFV: virtual network embedding, SFC placement, and the Virne benchmark (ICLR 2026).';
+
+const meta = [
+  ['Author', 'Tianfu Wang'],
+  ['Affiliation', 'HKUST(GZ)'],
+  ['Line', '2021 – 2026'],
+  ['Outputs', '05 papers / 04 repos'],
+];
+
+const profileLinks = [
+  { label: 'tianfuwang.tech', href: 'https://tianfuwang.tech/', icon: 'globe' },
+  { label: 'GitHub @GeminiLight', href: 'https://github.com/GeminiLight', icon: 'github' },
+  { label: 'Google Scholar', href: 'https://scholar.google.com/citations?user=BYdLtIgAAAAJ', icon: 'scholar' },
+  { label: 'DBLP', href: 'https://dblp.org/pid/25/3611-2.html', icon: 'database' },
+];
+
+const jsonld = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'WebSite',
+      '@id': 'https://tianfuwang.tech/rl4net/#website',
+      url: 'https://tianfuwang.tech/rl4net/',
+      name: 'RL4Net',
+      description,
+      dateModified: '2026-09-23',
+      publisher: { '@id': 'https://tianfuwang.tech/#person' },
+    },
+    {
+      '@type': 'Person',
+      '@id': 'https://tianfuwang.tech/#person',
+      name: 'Tianfu Wang',
+      alternateName: ['王天富', 'GeminiLight'],
+      url: 'https://tianfuwang.tech/',
+      jobTitle: 'PhD student',
+      affiliation: {
+        '@type': 'CollegeOrUniversity',
+        name: 'The Hong Kong University of Science and Technology (Guangzhou)',
+      },
+      sameAs: [
+        'https://github.com/GeminiLight',
+        'https://scholar.google.com/citations?user=BYdLtIgAAAAJ',
+        'https://dblp.org/pid/25/3611-2.html',
+      ],
+    },
+    {
+      '@type': 'Dataset',
+      '@id': 'https://tianfuwang.tech/rl4net/#virne-dataset',
+      name: 'Virne: A Comprehensive Benchmark for RL-based Network Resource Allocation in NFV',
+      description:
+        'Simulator and benchmark for resource allocation in Network Function Virtualization, covering virtual network embedding, VNF placement, service function chain deployment, and 5G network slicing, with 30+ algorithms under a Gymnasium-compatible interface.',
+      creator: { '@id': 'https://tianfuwang.tech/#person' },
+      license: 'https://www.apache.org/licenses/LICENSE-2.0',
+      datePublished: '2025-09-25',
+      dateModified: '2026-09-23',
+      isAccessibleForFree: true,
+      distribution: [
+        { '@type': 'DataDownload', name: 'PyPI', url: 'https://pypi.org/project/virne/' },
+        { '@type': 'DataDownload', name: 'GitHub', url: 'https://github.com/GeminiLight/virne' },
+        { '@type': 'DataDownload', name: 'Documentation', url: 'https://virne.readthedocs.io' },
+      ],
+    },
+    ...papers.map((p) => ({
+      '@type': 'ScholarlyArticle',
+      '@id': `https://tianfuwang.tech/rl4net/#paper-${p.id}`,
+      name: p.title,
+      author: { '@id': 'https://tianfuwang.tech/#person' },
+      datePublished: String(p.year),
+      isPartOf: { '@type': 'PublicationEvent', name: p.venue },
+      url: p.links.find((l) => l.label === 'Paper')?.href ?? 'https://tianfuwang.tech/rl4net/',
+    })),
+  ],
+};
+---
+
+<Base title={title} description={description}>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(jsonld)} />
+
+  <header class="sticky top-0 z-50 border-b border-rulestrong bg-paper/95 backdrop-blur-sm">
+    <div class="mx-auto flex h-14 max-w-6xl items-center justify-between gap-3 px-4">
+      <a href="#top" class="wordmark shrink-0 text-sm">RL4NET</a>
+      <nav class="mono-label flex min-w-0 items-center gap-3.5 overflow-x-auto sm:gap-5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <a class="nav-link shrink-0 whitespace-nowrap" href="#research">Research</a>
+        <a class="nav-link shrink-0 whitespace-nowrap" href="#benchmark">Benchmark</a>
+        <a class="nav-link shrink-0 whitespace-nowrap" href="#demo">Demo</a>
+        <a class="nav-link shrink-0 whitespace-nowrap" href="#about">About</a>
+        <ThemeToggle />
+        <a class="nav-link hidden shrink-0 whitespace-nowrap sm:inline" href="https://tianfuwang.tech/" target="_blank" rel="noopener">tianfuwang.tech</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top" class="mx-auto max-w-6xl space-y-10 px-4 py-10 sm:space-y-16 sm:py-16">
+    <section class="grid items-stretch gap-8 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]">
+      <div class="flex flex-col justify-center">
+        <h1 class="wordmark text-6xl leading-none sm:text-7xl">RL4NET</h1>
+        <p class="mono-label mt-4 text-signalink">Reinforcement learning for network resource allocation</p>
+        <p class="mt-5 max-w-prose text-ink2">
+          RL4Net is a research line on reinforcement learning for network resource allocation in NFV
+          networks: virtual network embedding, VNF placement, service function chain deployment, and
+          5G network slicing. Five papers, 2021–2026 — from adaptive SFC placement (ICC 2021) to
+          Virne, a comprehensive benchmark accepted at ICLR 2026.
+        </p>
+        <dl class="mt-7 grid max-w-md grid-cols-2 gap-px border border-rule bg-rule">
+          {meta.map(([k, v]) => (
+            <div class="bg-plate px-3.5 py-2.5">
+              <dt class="mono-label text-ink3">{k}</dt>
+              <dd class="mt-1 font-mono text-[12.5px]">{v}</dd>
+            </div>
+          ))}
+        </dl>
+        <div class="mt-7 flex flex-wrap gap-3">
+          <a class="btn btn-solid" href="https://arxiv.org/abs/2507.19234" target="_blank" rel="noopener">
+            <Icon name="paper" size={13} />ICLR 2026 paper
+          </a>
+          <a class="btn" href="https://github.com/GeminiLight/virne" target="_blank" rel="noopener">
+            <Icon name="github" size={13} />Virne on GitHub
+          </a>
+          <a class="btn" href="https://virne.readthedocs.io" target="_blank" rel="noopener">
+            <Icon name="book" size={13} />Documentation
+          </a>
+        </div>
+      </div>
+      <VneHero />
+    </section>
+
+    <Plate num="01" id="overview" title="Why reinforcement learning for network resource allocation">
+      <div class="max-w-3xl space-y-5">
+        <p>
+          Network Function Virtualization lets operators deploy services as virtual networks on top of
+          shared substrate infrastructure. Deciding which virtual requests to accept, and where to place
+          their nodes and links, is known as Virtual Network Embedding, VNF placement, or service function
+          chain deployment. The problem is NP-hard and must be solved online, thousands of times per day,
+          under incomplete information about future demand.
+        </p>
+        <p>
+          Since 2021 this research line has attacked that problem with deep reinforcement learning:
+          adaptive service function chain placement, hierarchical admission control and allocation, a
+          flexible and generalizable framework, constraint-aware learning, and finally Virne, a simulator
+          and benchmark that unifies traditional and learning-based solvers under one
+          Gymnasium-compatible interface.
+        </p>
+      </div>
+    </Plate>
+
+    <Plate num="02" id="research" title="The research line" meta={['2021 – 2026', '5 papers']}>
+      <Papers />
+    </Plate>
+
+    <Plate num="03" id="benchmark" title="The Virne benchmark" meta={['ICLR 2026', 'Apache-2.0']}>
+      <div class="space-y-12">
+        <Benchmark />
+        <div id="demo">
+          <h3 class="mono-label mb-4 text-ink3">Live embedding demo</h3>
+          <LiveDemo />
+        </div>
+        <div>
+          <h3 class="mono-label mb-2 text-ink3">Frequently asked</h3>
+          <Faq />
+        </div>
+      </div>
+    </Plate>
+
+    <Plate num="04" id="about" title="About" meta={['HKUST(GZ)']}>
+      <div class="grid gap-10 sm:grid-cols-2">
+        <div>
+          <p class="max-w-prose text-ink2">
+            RL4Net is maintained by Tianfu Wang, PhD student at The Hong Kong University of Science and
+            Technology (Guangzhou), advised in collaboration with Qilin Fan and Hui Xiong.
+          </p>
+          <div class="mt-5 flex flex-col items-start gap-2.5">
+            {profileLinks.map((l) => (
+              <a class="prof-link" href={l.href} target="_blank" rel="noopener">
+                <Icon name={l.icon} size={13} />{l.label}
+              </a>
+            ))}
+          </div>
+        </div>
+        <div class="max-w-prose text-[13.5px] text-ink3">
+          <p>
+            Set in Schibsted Grotesk and Fragment Mono. Built with Astro, served by GitHub Pages.
+            Signals on a dark field: cold cyan for the substrate network, warm amber for everything
+            the agents learn. Paper figures are reproduced from the authors' own publications.
+          </p>
+          <p class="mt-3">
+            Contact: wtfly2018@gmail.com. For bugs and feature requests on Virne,
+            open an issue in the repository.
+          </p>
+        </div>
+      </div>
+    </Plate>
+  </main>
+
+  <footer class="border-t border-rulestrong">
+    <div class="mono-label mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-6 text-ink3">
+      <span>RL4Net — tianfuwang.tech/rl4net</span>
+      <span>2021 – 2026 Tianfu Wang · Updated Sep 2026</span>
+    </div>
+  </footer>
+
+  <script>
+    const navLinks = document.querySelectorAll<HTMLAnchorElement>('header .nav-link');
+    const map = new Map<string, HTMLAnchorElement>();
+    navLinks.forEach((l) => {
+      const href = l.getAttribute('href');
+      if (href?.startsWith('#')) map.set(href.slice(1), l);
+    });
+    const spy = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) {
+            navLinks.forEach((l) => l.classList.remove('active'));
+            map.get(e.target.id)?.classList.add('active');
+          }
+        }
+      },
+      { rootMargin: '-20% 0px -70% 0px' }
+    );
+    document.querySelectorAll<HTMLElement>('main [id]').forEach((el) => {
+      if (map.has(el.id)) spy.observe(el);
+    });
+  </script>
+</Base>
+
+<style>
+  .nav-link {
+    color: var(--ink-2);
+    transition: color 160ms ease;
+  }
+
+  .nav-link:hover {
+    color: var(--signal-ink);
+  }
+
+  .prof-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-color: var(--rule-strong);
+    transition: text-decoration-color 160ms ease, color 160ms ease;
+  }
+
+  .prof-link:hover {
+    text-decoration-color: var(--signal);
+  }
+</style>

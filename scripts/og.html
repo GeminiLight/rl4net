@@ -1,0 +1,92 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400..900&family=Fragment+Mono&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1200px; height: 630px; overflow: hidden; position: relative;
+    background-color: #090B0F;
+    background-image: radial-gradient(rgba(230,234,240,0.07) 1px, transparent 1px);
+    background-size: 26px 26px;
+    font-family: 'Schibsted Grotesk', sans-serif;
+    color: #E6EAF0;
+  }
+  .frame { position: absolute; inset: 16px; border: 1px solid rgba(230,234,240,0.18); }
+  .block { position: absolute; top: 17px; left: 17px; right: 17px; display: flex; border-bottom: 1px solid rgba(230,234,240,0.18); }
+  .block > div {
+    font-family: 'Fragment Mono', monospace; font-size: 11px; letter-spacing: 0.1em;
+    text-transform: uppercase; color: rgba(230,234,240,0.45); padding: 8px 16px;
+  }
+  .block > div + div { border-left: 1px solid rgba(230,234,240,0.10); }
+  .block .fill { flex: 1; }
+  .text { position: absolute; left: 64px; top: 128px; width: 640px; }
+  .wordmark { font-weight: 800; font-size: 108px; line-height: 0.95; letter-spacing: -0.01em; }
+  .sub { font-family: 'Fragment Mono', monospace; font-size: 14px; letter-spacing: 0.14em; text-transform: uppercase; color: #4DE8D2; margin-top: 20px; }
+  .who { font-size: 19px; color: rgba(230,234,240,0.62); margin-top: 26px; }
+  .tags { font-family: 'Fragment Mono', monospace; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(230,234,240,0.42); margin-top: 10px; }
+  .who b { color: #FFC26E; font-weight: 600; }
+  .url { position: absolute; right: 40px; bottom: 34px; font-family: 'Fragment Mono', monospace; font-size: 12px; letter-spacing: 0.1em; color: rgba(230,234,240,0.45); }
+  svg.net { position: absolute; right: 0; top: 60px; }
+</style>
+</head>
+<body>
+  <div class="frame"></div>
+  <div class="block">
+    <div>Signal 01</div>
+    <div class="fill">RL4Net</div>
+    <div>Rev 2026</div>
+  </div>
+  <div class="text">
+    <div class="wordmark">RL4NET</div>
+    <div class="sub">Reinforcement learning for network resource allocation</div>
+    <div class="who">Tianfu Wang — HKUST(GZ) · <b>Virne benchmark, ICLR 2026</b></div>
+    <div class="tags">VNE · VNF placement · SFC · 5G slicing</div>
+  </div>
+  <svg class="net" width="560" height="560" viewBox="0 0 560 560">
+    <g stroke="rgba(48,227,200,0.28)" stroke-width="1.5">
+      <line x1="120" y1="90" x2="300" y2="60"/>
+      <line x1="300" y1="60" x2="460" y2="150"/>
+      <line x1="460" y1="150" x2="420" y2="330"/>
+      <line x1="420" y1="330" x2="300" y2="60"/>
+      <line x1="120" y1="90" x2="200" y2="260"/>
+      <line x1="200" y1="260" x2="420" y2="330"/>
+      <line x1="200" y1="260" x2="90" y2="420"/>
+      <line x1="90" y1="420" x2="280" y2="480"/>
+      <line x1="280" y1="480" x2="420" y2="330"/>
+      <line x1="280" y1="480" x2="470" y2="500"/>
+    </g>
+    <g stroke="#FFB454" stroke-width="2.5" stroke-dasharray="7 6">
+      <line x1="120" y1="90" x2="200" y2="260"/>
+      <line x1="200" y1="260" x2="420" y2="330"/>
+    </g>
+    <g fill="#0E1116" stroke="rgba(77,232,210,0.72)" stroke-width="2">
+      <circle cx="120" cy="90" r="10"/>
+      <circle cx="300" cy="60" r="10"/>
+      <circle cx="460" cy="150" r="10"/>
+      <circle cx="420" cy="330" r="10"/>
+      <circle cx="200" cy="260" r="10"/>
+      <circle cx="90" cy="420" r="10"/>
+      <circle cx="280" cy="480" r="10"/>
+      <circle cx="470" cy="500" r="10"/>
+    </g>
+    <g fill="rgba(77,232,210,0.8)">
+      <circle cx="120" cy="90" r="2.5"/>
+      <circle cx="300" cy="60" r="2.5"/>
+      <circle cx="460" cy="150" r="2.5"/>
+      <circle cx="420" cy="330" r="2.5"/>
+      <circle cx="200" cy="260" r="2.5"/>
+      <circle cx="90" cy="420" r="2.5"/>
+      <circle cx="280" cy="480" r="2.5"/>
+      <circle cx="470" cy="500" r="2.5"/>
+    </g>
+    <g fill="#FFB454" style="filter: drop-shadow(0 0 8px rgba(255,180,84,0.55));">
+      <circle cx="120" cy="90" r="13"/>
+      <circle cx="200" cy="260" r="13"/>
+      <circle cx="420" cy="330" r="13"/>
+    </g>
+  </svg>
+  <div class="url">tianfuwang.tech/rl4net</div>
+</body>
+</html>

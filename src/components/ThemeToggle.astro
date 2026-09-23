@@ -1,0 +1,44 @@
+---
+import Icon from './Icon.astro';
+---
+
+<button id="theme-toggle" class="theme-toggle" aria-label="Toggle color theme" type="button">
+  <Icon name="moon" size={15} class="ic-moon" />
+  <Icon name="sun" size={15} class="ic-sun" />
+</button>
+
+<style>
+  .theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border: 1px solid transparent;
+    background: transparent;
+    color: var(--ink-2);
+    cursor: pointer;
+    transition: color 160ms ease, border-color 160ms ease;
+  }
+
+  .theme-toggle:hover {
+    color: var(--signal-ink);
+    border-color: var(--rule);
+  }
+
+  :global(html:not(.light)) .ic-sun {
+    display: none;
+  }
+
+  :global(html.light) .ic-moon {
+    display: none;
+  }
+</style>
+
+<script>
+  document.getElementById('theme-toggle')?.addEventListener('click', () => {
+    const light = document.documentElement.classList.toggle('light');
+    localStorage.setItem('rl4net-theme', light ? 'light' : 'dark');
+    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', light ? '#F4F6F5' : '#090B0F');
+  });
+</script>

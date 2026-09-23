@@ -1,0 +1,407 @@
+---
+type Node = { id: number; x: number; y: number; cap: number };
+
+const nodes: Node[] = [
+  { id: 1, x: 520, y: 70, cap: 100 },
+  { id: 2, x: 640, y: 120, cap: 80 },
+  { id: 3, x: 560, y: 180, cap: 90 },
+  { id: 4, x: 420, y: 90, cap: 70 },
+  { id: 5, x: 300, y: 70, cap: 60 },
+  { id: 6, x: 150, y: 110, cap: 80 },
+  { id: 7, x: 90, y: 220, cap: 60 },
+  { id: 8, x: 200, y: 200, cap: 70 },
+  { id: 9, x: 330, y: 190, cap: 100 },
+  { id: 10, x: 480, y: 260, cap: 80 },
+  { id: 11, x: 620, y: 260, cap: 70 },
+  { id: 12, x: 560, y: 350, cap: 90 },
+  { id: 13, x: 400, y: 330, cap: 60 },
+  { id: 14, x: 250, y: 320, cap: 70 },
+];
+
+const edges: Array<[number, number]> = [
+  [5, 4], [4, 1], [1, 2], [2, 3], [3, 9], [9, 4], [9, 8], [8, 6], [6, 5], [8, 7],
+  [9, 10], [10, 3], [10, 11], [11, 2], [10, 12], [12, 13], [13, 14], [14, 8], [13, 9], [12, 11],
+];
+
+const byId = Object.fromEntries(nodes.map((n) => [n.id, n]));
+const radius = (cap: number) => 6 + cap / 14;
+const net = { nodes, edges: edges.map(([a, b]) => ({ a, b, cap: 100 })) };
+---
+
+<div class="space-y-4">
+  <div class="flex flex-wrap items-center justify-between gap-3">
+    <div class="mono-label flex flex-wrap items-center gap-x-5 gap-y-1 text-ink3">
+      <span>Req <span id="d-total" class="text-ink">0</span></span>
+      <span>Accepted <span id="d-acc" class="text-ink">0</span></span>
+      <span>Rate <span id="d-rate" class="text-warmink">—</span></span>
+      <span>Revenue <span id="d-rev" class="text-ink">0</span></span>
+    </div>
+    <div class="flex gap-2">
+      <button id="d-pause" class="btn demo-btn" type="button">Pause</button>
+      <button id="d-step" class="btn demo-btn" type="button">Step</button>
+      <button id="d-reset" class="btn demo-btn" type="button">Reset</button>
+    </div>
+  </div>
+
+  <div class="border border-rulestrong bg-plate">
+    <svg
+      id="demo-svg"
+      viewBox="0 0 680 440"
+      class="block h-auto w-full"
+      role="img"
+      aria-label="Interactive demo: virtual network requests arrive and are embedded onto a substrate network by a greedy heuristic"
+    >
+      {net.edges.map((e) => (
+        <line
+          class="d-edge"
+          x1={byId[e.a].x}
+          y1={byId[e.a].y}
+          x2={byId[e.b].x}
+          y2={byId[e.b].y}
+          data-edge={`${e.a}-${e.b}`}
+        />
+      ))}
+      {nodes.map((n) => (
+        <g data-node={n.id}>
+          <circle class="d-usage" cx={n.x} cy={n.y} r={radius(n.cap) - 2} style={`opacity:0;`} />
+          <circle class="d-node" cx={n.x} cy={n.y} r={radius(n.cap)} />
+          <text class="d-cap" x={n.x} y={n.y + radius(n.cap) + 11}>{n.cap}</text>
+        </g>
+      ))}
+      <g id="d-reqs"></g>
+    </svg>
+  </div>
+
+  <div class="flex flex-wrap gap-x-6 gap-y-1 text-[12px] text-ink3">
+    <span class="inline-flex items-center gap-2"><span class="legend legend-warm"></span>active virtual network</span>
+    <span class="inline-flex items-center gap-2"><span class="legend legend-cyan"></span>substrate node, fill = utilization</span>
+  </div>
+
+  <p class="max-w-3xl text-[14px] text-ink2">
+    What you are watching: virtual network requests arrive one at a time, and a simplified greedy
+    node-ranking heuristic decides where to place their nodes and links on the substrate network.
+    Requests hold resources for a bounded lifetime, then leave. Rejections happen when no feasible
+    placement exists. In Virne, this same environment drives over 30 solvers, from exact methods to
+    reinforcement learning agents such as PPO-DualGAT.
+  </p>
+</div>
+
+<script type="application/json" id="d-net" set:html={JSON.stringify(net)} />
+
+<style>
+  .demo-btn {
+    padding: 6px 12px;
+  }
+
+  .d-edge {
+    stroke: rgba(48, 227, 200, 0.24);
+    stroke-width: 1.5;
+  }
+
+  :global(html.light) .d-edge {
+    stroke: rgba(8, 143, 108, 0.30);
+  }
+
+  .d-node {
+    fill: var(--plate);
+    stroke: rgba(77, 232, 210, 0.72);
+    stroke-width: 1.5;
+  }
+
+  :global(html.light) .d-node {
+    stroke: rgba(8, 127, 108, 0.65);
+  }
+
+  .d-usage {
+    fill: var(--signal);
+    transition: opacity 600ms ease;
+  }
+
+  .d-cap {
+    font-family: var(--font-mono);
+    font-size: 8px;
+    fill: var(--ink-3);
+    text-anchor: middle;
+  }
+
+  .legend {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 9999px;
+  }
+
+  .legend-warm {
+    background: var(--warm);
+  }
+
+  .legend-cyan {
+    background: var(--plate);
+    border: 1.5px solid var(--signal);
+  }
+
+  :global(.d-req) {
+    opacity: 0;
+    transition: opacity 480ms ease;
+  }
+
+  :global(.d-req.in) {
+    opacity: 1;
+  }
+
+  :global(.d-req.out) {
+    opacity: 0;
+  }
+
+  :global(.d-req circle) {
+    fill: var(--warm);
+    stroke: none;
+    filter: drop-shadow(0 0 5px rgba(255, 180, 84, 0.45));
+  }
+
+  :global(.d-req path) {
+    fill: none;
+    stroke: var(--warm);
+    stroke-width: 2;
+    stroke-dasharray: 5 4;
+    opacity: 0.85;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :global(.d-req), .d-usage {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  type Net = {
+    nodes: Array<{ id: number; x: number; y: number; cap: number }>;
+    edges: Array<{ a: number; b: number; cap: number }>;
+  };
+
+  const net: Net = JSON.parse(document.getElementById('d-net')!.textContent!);
+  const svg = document.getElementById('demo-svg')!;
+  const reqLayer = document.getElementById('d-reqs')!;
+  const NS = 'http://www.w3.org/2000/svg';
+
+  const state = {
+    nodes: net.nodes.map((n) => ({ ...n, used: 0 })),
+    edges: net.edges.map((e) => ({ ...e, used: 0 })),
+    adj: new Map<number, number[]>(),
+    active: [] as Array<{
+      lifetime: number;
+      nodeAllocs: Array<{ id: number; amount: number }>;
+      edgeAllocs: Array<{ key: string; amount: number }>;
+      el: SVGGElement;
+      paths: number[][];
+    }>,
+    total: 0,
+    accepted: 0,
+    revenue: 0,
+    running: false,
+    timer: 0,
+  };
+
+  net.nodes.forEach((n) => state.adj.set(n.id, []));
+  state.edges.forEach((e) => {
+    state.adj.get(e.a)!.push(e.b);
+    state.adj.get(e.b)!.push(e.a);
+  });
+
+  const edgeKey = (a: number, b: number) => `${Math.min(a, b)}-${Math.max(a, b)}`;
+  const edgeMap = new Map(state.edges.map((e) => [edgeKey(e.a, e.b), e]));
+  const remaining = (n: (typeof state.nodes)[number]) => n.cap - n.used;
+
+  function shortestPath(src: number, dst: number, minBw: number): number[] | null {
+    const prev = new Map<number, number>();
+    const queue: number[] = [src];
+    const seen = new Set([src]);
+    while (queue.length) {
+      const cur = queue.shift()!;
+      if (cur === dst) break;
+      for (const nb of state.adj.get(cur) ?? []) {
+        if (seen.has(nb)) continue;
+        const e = edgeMap.get(edgeKey(cur, nb))!;
+        if (e.cap - e.used < minBw) continue;
+        seen.add(nb);
+        prev.set(nb, cur);
+        queue.push(nb);
+      }
+    }
+    if (!seen.has(dst)) return null;
+    const path: number[] = [dst];
+    let cur = dst;
+    while (cur !== src) {
+      cur = prev.get(cur)!;
+      path.unshift(cur);
+    }
+    return path;
+  }
+
+  function hopDist(src: number, dst: number): number {
+    const p = shortestPath(src, dst, 0);
+    return p ? p.length - 1 : 99;
+  }
+
+  type VnReq = {
+    cpu: number[];
+    links: Array<[number, number]>;
+    bw: number[];
+  };
+
+  function generate(): VnReq {
+    const k = 2 + Math.floor(Math.random() * 3);
+    const cpu = Array.from({ length: k }, () => 10 + Math.floor(Math.random() * 25));
+    const links: Array<[number, number]> = [];
+    for (let i = 1; i < k; i++) links.push([Math.floor(Math.random() * i), i]);
+    const bw = links.map(() => 5 + Math.floor(Math.random() * 16));
+    return { cpu, links, bw };
+  }
+
+  function tryEmbed(req: VnReq) {
+    const mapping = new Map<number, number>();
+    const order = req.cpu.map((c, i) => ({ c, i })).sort((a, b) => b.c - a.c).map((x) => x.i);
+    const nodeAllocs: Array<{ id: number; amount: number }> = [];
+    const edgeAllocs: Array<{ key: string; amount: number }> = [];
+    const paths: Array<number[]> = [];
+
+    for (const i of order) {
+      const neighbors = req.links
+        .map((l, li) => ({ l, li }))
+        .filter(({ l }) => mapping.has(l[0] === i ? l[1] : l[1] === i ? l[0] : -1) && (l[0] === i || l[1] === i))
+        .map(({ l, li }) => ({ other: l[0] === i ? l[1] : l[0], li }));
+      let best: number | null = null;
+      let bestScore = Infinity;
+      for (const cand of state.nodes) {
+        if (remaining(cand) < req.cpu[i]) continue;
+        if ([...mapping.values()].includes(cand.id)) continue;
+        let score = 0;
+        for (const { other } of neighbors) score += hopDist(cand.id, mapping.get(other)!) * 2;
+        score -= remaining(cand) / 50;
+        if (score < bestScore) {
+          bestScore = score;
+          best = cand.id;
+        }
+      }
+      if (best === null) return null;
+      mapping.set(i, best);
+    }
+
+    for (let li = 0; li < req.links.length; li++) {
+      const [u, v] = req.links[li];
+      const path = shortestPath(mapping.get(u)!, mapping.get(v)!, req.bw[li]);
+      if (!path) return null;
+      paths.push(path);
+      for (let p = 0; p < path.length - 1; p++) edgeAllocs.push({ key: edgeKey(path[p], path[p + 1]), amount: req.bw[li] });
+    }
+
+    for (const [i, id] of mapping) {
+      const n = state.nodes.find((x) => x.id === id)!;
+      n.used += req.cpu[i];
+      nodeAllocs.push({ id, amount: req.cpu[i] });
+    }
+    for (const a of edgeAllocs) edgeMap.get(a.key)!.used += a.amount;
+
+    const el = document.createElementNS(NS, 'g') as SVGGElement;
+    el.setAttribute('class', 'd-req');
+    const pos = (i: number) => state.nodes.find((x) => x.id === mapping.get(i)!)!;
+    for (const path of paths) {
+      const pe = document.createElementNS(NS, 'path');
+      pe.setAttribute('d', path.map((id, idx) => {
+        const n = state.nodes.find((x) => x.id === id)!;
+        return `${idx === 0 ? 'M' : 'L'} ${n.x} ${n.y}`;
+      }).join(' '));
+      el.appendChild(pe);
+    }
+    for (const [i] of mapping) {
+      const n = pos(i);
+      const c = document.createElementNS(NS, 'circle');
+      c.setAttribute('cx', String(n.x));
+      c.setAttribute('cy', String(n.y));
+      c.setAttribute('r', String(5 + req.cpu[i] / 12));
+      el.appendChild(c);
+    }
+    reqLayer.appendChild(el);
+    requestAnimationFrame(() => requestAnimationFrame(() => el.classList.add('in')));
+
+    return { nodeAllocs, edgeAllocs, el, paths };
+  }
+
+  function updateVisuals() {
+    for (const n of state.nodes) {
+      const g = svg.querySelector<SVGGElement>(`g[data-node="${n.id}"]`)!;
+      const usage = g.querySelector<SVGCircleElement>('.d-usage')!;
+      usage.style.opacity = String(0.12 + 0.75 * (n.used / n.cap));
+    }
+  }
+
+  function renderStats() {
+    document.getElementById('d-total')!.textContent = String(state.total);
+    document.getElementById('d-acc')!.textContent = String(state.accepted);
+    document.getElementById('d-rate')!.textContent = state.total ? `${((state.accepted / state.total) * 100).toFixed(1)}%` : '—';
+    document.getElementById('d-rev')!.textContent = String(state.revenue);
+  }
+
+  function tick() {
+    for (const req of [...state.active]) {
+      req.lifetime -= 1;
+      if (req.lifetime <= 0) {
+        for (const a of req.nodeAllocs) state.nodes.find((n) => n.id === a.id)!.used -= a.amount;
+        for (const a of req.edgeAllocs) edgeMap.get(a.key)!.used -= a.amount;
+        req.el.classList.add('out');
+        setTimeout(() => req.el.remove(), 600);
+        state.active = state.active.filter((r) => r !== req);
+      }
+    }
+
+    const req = generate();
+    state.total += 1;
+    const embedded = tryEmbed(req);
+    if (embedded) {
+      state.accepted += 1;
+      state.revenue += req.cpu.reduce((a, b) => a + b, 0) + req.bw.reduce((a, b) => a + b, 0);
+      state.active.push({ ...embedded, lifetime: 4 + Math.floor(Math.random() * 5) });
+    }
+    updateVisuals();
+    renderStats();
+  }
+
+  function start() {
+    if (state.running) return;
+    state.running = true;
+    state.timer = window.setInterval(tick, 2400);
+    document.getElementById('d-pause')!.textContent = 'Pause';
+  }
+
+  function stop() {
+    state.running = false;
+    window.clearInterval(state.timer);
+    document.getElementById('d-pause')!.textContent = 'Resume';
+  }
+
+  document.getElementById('d-pause')!.addEventListener('click', () => (state.running ? stop() : start()));
+  document.getElementById('d-step')!.addEventListener('click', () => { stop(); tick(); });
+  document.getElementById('d-reset')!.addEventListener('click', () => {
+    stop();
+    state.nodes.forEach((n) => (n.used = 0));
+    state.edges.forEach((e) => (e.used = 0));
+    state.active.forEach((r) => r.el.remove());
+    state.active = [];
+    state.total = 0;
+    state.accepted = 0;
+    state.revenue = 0;
+    updateVisuals();
+    renderStats();
+  });
+
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) (e.isIntersecting ? start : stop)();
+  }, { threshold: 0.15 });
+  io.observe(svg);
+
+  document.addEventListener('visibilitychange', () => (document.hidden ? stop() : undefined));
+
+  updateVisuals();
+  renderStats();
+</script>
