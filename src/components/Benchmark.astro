@@ -66,38 +66,6 @@ const virne = papers.find((p) => p.id === 'virne')!;
   </dl>
 
   <div>
-    <h3 class="mono-label mb-4 text-ink3">Methods in the line</h3>
-    <div class="overflow-x-auto">
-      <table class="tbl">
-        <thead>
-          <tr>
-            <th>Method</th>
-            <th>Venue</th>
-            <th>Problem</th>
-            <th>Approach</th>
-            <th>Code</th>
-          </tr>
-        </thead>
-        <tbody>
-          {papers.map((p) => (
-            <tr>
-              <td class="font-semibold">{p.short}</td>
-              <td class="num">{p.venueTag}</td>
-              <td class="text-ink2">{p.problem}</td>
-              <td class="text-ink2">{p.approach}</td>
-              <td>
-                {p.links.find((l) => l.label === 'Code')
-                  ? <a class="tbl-link" href={p.links.find((l) => l.label === 'Code')!.href} target="_blank" rel="noopener">GitHub</a>
-                  : <span class="text-ink3">—</span>}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <div>
     <h3 class="mono-label mb-4 text-ink3">Resources</h3>
     <div class="flex flex-wrap gap-3">
       {virne.links.map((l) => (

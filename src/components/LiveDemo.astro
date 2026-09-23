@@ -28,13 +28,30 @@ const radius = (cap: number) => 6 + cap / 14;
 const net = { nodes, edges: edges.map(([a, b]) => ({ a, b, cap: 100 })) };
 ---
 
-<div class="space-y-4">
+<div class="space-y-5">
+  <div class="grid grid-cols-2 gap-px border border-rulestrong bg-rulestrong sm:grid-cols-4">
+    <div class="bg-plate p-4">
+      <div id="d-total" class="font-mono text-[26px] leading-tight">0</div>
+      <div class="mono-label mt-1 text-ink3">Requests</div>
+    </div>
+    <div class="bg-plate p-4">
+      <div id="d-acc" class="font-mono text-[26px] leading-tight">0</div>
+      <div class="mono-label mt-1 text-ink3">Accepted</div>
+    </div>
+    <div class="bg-plate p-4">
+      <div id="d-rate" class="font-mono text-[26px] leading-tight text-warmink">—</div>
+      <div class="mono-label mt-1 text-ink3">Acceptance rate</div>
+    </div>
+    <div class="bg-plate p-4">
+      <div id="d-rev" class="font-mono text-[26px] leading-tight">0</div>
+      <div class="mono-label mt-1 text-ink3">Revenue</div>
+    </div>
+  </div>
+
   <div class="flex flex-wrap items-center justify-between gap-3">
-    <div class="mono-label flex flex-wrap items-center gap-x-5 gap-y-1 text-ink3">
-      <span>Req <span id="d-total" class="text-ink">0</span></span>
-      <span>Accepted <span id="d-acc" class="text-ink">0</span></span>
-      <span>Rate <span id="d-rate" class="text-warmink">—</span></span>
-      <span>Revenue <span id="d-rev" class="text-ink">0</span></span>
+    <div class="flex flex-wrap gap-x-5 gap-y-1 text-[12px] text-ink3">
+      <span class="inline-flex items-center gap-2"><span class="legend legend-warm"></span>active virtual network</span>
+      <span class="inline-flex items-center gap-2"><span class="legend legend-cyan"></span>substrate node, fill = utilization</span>
     </div>
     <div class="flex gap-2">
       <button id="d-pause" class="btn demo-btn" type="button">Pause</button>
@@ -70,11 +87,6 @@ const net = { nodes, edges: edges.map(([a, b]) => ({ a, b, cap: 100 })) };
       ))}
       <g id="d-reqs"></g>
     </svg>
-  </div>
-
-  <div class="flex flex-wrap gap-x-6 gap-y-1 text-[12px] text-ink3">
-    <span class="inline-flex items-center gap-2"><span class="legend legend-warm"></span>active virtual network</span>
-    <span class="inline-flex items-center gap-2"><span class="legend legend-cyan"></span>substrate node, fill = utilization</span>
   </div>
 
   <p class="max-w-3xl text-[14px] text-ink2">

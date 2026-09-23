@@ -104,25 +104,25 @@ const jsonld = {
     </div>
   </header>
 
-  <main id="top" class="mx-auto max-w-6xl space-y-10 px-4 py-10 sm:space-y-16 sm:py-16">
+  <main id="top" class="mx-auto max-w-6xl space-y-10 px-4 py-10 sm:space-y-20 sm:py-16">
     <section class="grid items-stretch gap-8 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]">
       <div class="flex flex-col justify-center">
-        <h1 class="wordmark text-6xl leading-none sm:text-7xl">RL4NET</h1>
+        <h1 class="wordmark text-6xl leading-none sm:text-7xl">RL4NET<span class="cursor" aria-hidden="true"></span></h1>
         <p class="mono-label mt-4 text-signalink">Reinforcement learning for network resource allocation</p>
         <p class="mt-5 max-w-prose text-ink2">
           RL4Net is a research line on reinforcement learning for network resource allocation in NFV
           networks: virtual network embedding, VNF placement, service function chain deployment, and
-          5G network slicing. Five papers, 2021–2026 — from adaptive SFC placement (ICC 2021) to
-          Virne, a comprehensive benchmark accepted at ICLR 2026.
+          5G network slicing. Five papers, 2021–2026, closing with Virne, a comprehensive benchmark
+          accepted at ICLR 2026.
         </p>
-        <dl class="mt-7 grid max-w-md grid-cols-2 gap-px border border-rule bg-rule">
-          {meta.map(([k, v]) => (
-            <div class="bg-plate px-3.5 py-2.5">
-              <dt class="mono-label text-ink3">{k}</dt>
-              <dd class="mt-1 font-mono text-[12.5px]">{v}</dd>
+        <div class="mt-8 flex flex-wrap items-stretch border border-rulestrong">
+          {meta.map(([k, v], i) => (
+            <div class={`bg-plate px-4 py-2.5 ${i > 0 ? 'border-l border-rule' : ''}`}>
+              <div class="mono-label text-ink3">{k}</div>
+              <div class="mt-0.5 font-mono text-[12.5px]">{v}</div>
             </div>
           ))}
-        </dl>
+        </div>
         <div class="mt-7 flex flex-wrap gap-3">
           <a class="btn btn-solid" href="https://arxiv.org/abs/2507.19234" target="_blank" rel="noopener">
             <Icon name="paper" size={13} />ICLR 2026 paper
@@ -139,21 +139,49 @@ const jsonld = {
     </section>
 
     <Plate num="01" id="overview" title="Why reinforcement learning for network resource allocation">
-      <div class="max-w-3xl space-y-5">
-        <p>
-          Network Function Virtualization lets operators deploy services as virtual networks on top of
-          shared substrate infrastructure. Deciding which virtual requests to accept, and where to place
-          their nodes and links, is known as Virtual Network Embedding, VNF placement, or service function
-          chain deployment. The problem is NP-hard and must be solved online, thousands of times per day,
-          under incomplete information about future demand.
-        </p>
-        <p>
-          Since 2021 this research line has attacked that problem with deep reinforcement learning:
-          adaptive service function chain placement, hierarchical admission control and allocation, a
-          flexible and generalizable framework, constraint-aware learning, and finally Virne, a simulator
-          and benchmark that unifies traditional and learning-based solvers under one
-          Gymnasium-compatible interface.
-        </p>
+      <div class="grid items-start gap-8 lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)]">
+        <div class="space-y-7">
+          <p class="max-w-prose">
+            Network Function Virtualization deploys services as virtual networks over shared substrate
+            infrastructure. Deciding which requests to accept, and where to place their nodes and
+            links, is a combinatorial allocation problem known as Virtual Network Embedding, VNF
+            placement, service function chain deployment, or network slicing — depending on who you
+            ask. It is NP-hard, it must be solved online, and it never sees future demand.
+          </p>
+          <div class="grid gap-px border border-rulestrong bg-rulestrong sm:grid-cols-3">
+            {[
+              ['NP-hard', 'combinatorial node and link placement'],
+              ['Online', 'thousands of allocation decisions per day'],
+              ['Blind', 'no information about future requests'],
+            ].map(([v, k]) => (
+              <div class="bg-plate p-4">
+                <div class="display text-xl">{v}</div>
+                <div class="mono-label mt-1.5 leading-relaxed text-ink3">{k}</div>
+              </div>
+            ))}
+          </div>
+          <p class="max-w-prose text-[14.5px] text-ink2">
+            Since 2021 this research line has attacked the problem with deep reinforcement learning —
+            from adaptive SFC placement to a generalizable framework — closing with Virne, a
+            benchmark that unifies traditional and learning-based solvers under one
+            Gymnasium-compatible interface.
+          </p>
+        </div>
+        <figure class="border border-rule bg-plate p-3">
+          <img
+            src={`${import.meta.env.BASE_URL}figures/virne-problem.png`}
+            alt="Illustration of the NFV resource allocation problem: virtual network requests arrive at a substrate network and must be embedded onto its nodes and links"
+            loading="lazy"
+            decoding="async"
+            width="1400"
+            height="1037"
+            class="block h-auto w-full"
+          />
+          <figcaption class="flex flex-wrap gap-2 px-1 pt-2.5 text-[12px]">
+            <span class="mono-label text-signalink">Fig. 1</span>
+            <span class="text-ink2">The NFV-RA problem: virtual requests arrive sequentially and must be embedded onto the substrate network.</span>
+          </figcaption>
+        </figure>
       </div>
     </Plate>
 
@@ -258,7 +286,26 @@ const jsonld = {
     transition: text-decoration-color 160ms ease, color 160ms ease;
   }
 
-  .prof-link:hover {
-    text-decoration-color: var(--signal);
+.prof-link:hover {
+  text-decoration-color: var(--signal);
+}
+
+.cursor {
+  display: inline-block;
+  width: 0.14em;
+  height: 0.76em;
+  margin-left: 0.07em;
+  background: var(--signal);
+  animation: blink 1.2s steps(1) infinite;
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cursor {
+    animation: none;
   }
+}
 </style>

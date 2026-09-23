@@ -13,10 +13,10 @@ const { num, title, id, meta = [] } = Astro.props;
   <div class="plate-frame border border-rulestrong bg-plate">
     <div class="flex flex-wrap items-stretch border-b border-rulestrong">
       <div class="mono-label flex items-center gap-2 border-r border-rule px-4 py-2.5 text-ink3">
-        <span>Sheet</span><span class="text-ink">{num}</span>
+        <span>Sheet</span><span class="text-[13px] font-semibold tracking-[0.06em] text-ink">{num}</span>
       </div>
       <div class="flex min-w-56 flex-1 items-center px-4 py-2.5">
-        <h2 class="display text-lg">{title}</h2>
+        <h2 class="display text-xl">{title}</h2>
       </div>
       {meta.map((m) => (
         <div class="mono-label hidden items-center border-l border-rule px-4 py-2.5 text-ink3 md:flex">{m}</div>
