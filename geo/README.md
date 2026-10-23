@@ -21,4 +21,4 @@ Paraphrases (use in rotation across runs):
 
 Scoring: mentioned (yes/no), cited_url (exact URL if cited), position (rank in answer),
 sentiment (pos/neu/neg), competitors_named, sources_cited (list domains).
-Success criterion: Virne or tianfuwang.tech cited in >= 30% of p1/p5 runs by month 3.
+Success criterion: Virne or tianfu.wang cited in >= 30% of p1/p5 runs by month 3.
