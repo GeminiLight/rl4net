@@ -22,7 +22,7 @@ const meta = [
 ];
 
 const profileLinks = [
-  { label: 'tianfuwang.tech', href: 'https://tianfuwang.tech/', icon: 'globe' },
+  { label: 'tianfu.wang', href: 'https://tianfu.wang/', icon: 'globe' },
   { label: 'GitHub @GeminiLight', href: 'https://github.com/GeminiLight', icon: 'github' },
   { label: 'Google Scholar', href: 'https://scholar.google.com/citations?user=BYdLtIgAAAAJ', icon: 'scholar' },
   { label: 'DBLP', href: 'https://dblp.org/pid/25/3611-2.html', icon: 'database' },
@@ -33,19 +33,19 @@ const jsonld = {
   '@graph': [
     {
       '@type': 'WebSite',
-      '@id': 'https://tianfuwang.tech/rl4net/#website',
-      url: 'https://tianfuwang.tech/rl4net/',
+      '@id': 'https://tianfu.wang/rl4net/#website',
+      url: 'https://tianfu.wang/rl4net/',
       name: 'RL4Net',
       description,
       dateModified: '2026-09-23',
-      publisher: { '@id': 'https://tianfuwang.tech/#person' },
+      publisher: { '@id': 'https://tianfu.wang/#person' },
     },
     {
       '@type': 'Person',
-      '@id': 'https://tianfuwang.tech/#person',
+      '@id': 'https://tianfu.wang/#person',
       name: 'Tianfu Wang',
       alternateName: ['王天富', 'GeminiLight'],
-      url: 'https://tianfuwang.tech/',
+      url: 'https://tianfu.wang/',
       jobTitle: 'PhD student',
       affiliation: [
         {
@@ -69,11 +69,11 @@ const jsonld = {
     },
     {
       '@type': 'Dataset',
-      '@id': 'https://tianfuwang.tech/rl4net/#virne-dataset',
+      '@id': 'https://tianfu.wang/rl4net/#virne-dataset',
       name: 'Virne: A Comprehensive Benchmark for RL-based Network Resource Allocation in NFV',
       description:
         'Simulator and benchmark for resource allocation in Network Function Virtualization, covering virtual network embedding, VNF placement, service function chain deployment, and 5G network slicing, with 30+ algorithms under a Gymnasium-compatible interface.',
-      creator: { '@id': 'https://tianfuwang.tech/#person' },
+      creator: { '@id': 'https://tianfu.wang/#person' },
       license: 'https://www.apache.org/licenses/LICENSE-2.0',
       datePublished: '2025-09-25',
       dateModified: '2026-09-23',
@@ -86,12 +86,12 @@ const jsonld = {
     },
     ...papers.map((p) => ({
       '@type': 'ScholarlyArticle',
-      '@id': `https://tianfuwang.tech/rl4net/#paper-${p.id}`,
+      '@id': `https://tianfu.wang/rl4net/#paper-${p.id}`,
       name: p.title,
-      author: { '@id': 'https://tianfuwang.tech/#person' },
+      author: { '@id': 'https://tianfu.wang/#person' },
       datePublished: String(p.year),
       isPartOf: { '@type': 'PublicationEvent', name: p.venue },
-      url: p.links.find((l) => l.label === 'Paper')?.href ?? 'https://tianfuwang.tech/rl4net/',
+      url: p.links.find((l) => l.label === 'Paper')?.href ?? 'https://tianfu.wang/rl4net/',
     })),
   ],
 };
@@ -109,7 +109,7 @@ const jsonld = {
         <a class="nav-link shrink-0 whitespace-nowrap" href="#demo">Demo</a>
         <a class="nav-link shrink-0 whitespace-nowrap" href="#about">About</a>
         <ThemeToggle />
-        <a class="nav-link hidden shrink-0 whitespace-nowrap sm:inline" href="https://tianfuwang.tech/" target="_blank" rel="noopener">tianfuwang.tech</a>
+        <a class="nav-link hidden shrink-0 whitespace-nowrap sm:inline" href="https://tianfu.wang/" target="_blank" rel="noopener">tianfu.wang</a>
       </nav>
     </div>
   </header>
@@ -247,7 +247,7 @@ const jsonld = {
 
   <footer class="border-t border-rulestrong">
     <div class="mono-label mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-6 text-ink3">
-      <span>RL4Net · tianfuwang.tech/rl4net</span>
+      <span>RL4Net · tianfu.wang/rl4net</span>
       <span>2021–2026 Tianfu Wang · Updated Sep 2026</span>
     </div>
   </footer>
